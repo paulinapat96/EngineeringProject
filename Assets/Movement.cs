@@ -39,8 +39,11 @@ public class Movement : MonoBehaviour {
 
 	[SerializeField] private float minDistanceToFly;
 	[SerializeField] private float minVelocityToFly;
-	
-	private float _timer;
+
+    public static event Action<float> OnWingForce;
+    //  if (OnWingForce != null) OnWingForce(hit.collider.gameObject);
+
+    private float _timer;
 	private Vector3 _lastMovePosition;
 	private Vector3 _previousPosition;
 	private int _lastMoveDirection;
@@ -106,9 +109,21 @@ public class Movement : MonoBehaviour {
 		_lastMoveDirection = direction;
 		_lastMovePosition = transform.position;
 
-	}
+        QualifyToFly();
 
-	private void LogPosition()
+    }
+
+    private void QualifyToFly()
+    {
+        Move moveToQualify = listOfMoves[listOfMoves.Count - 2];
+        if (moveToQualify.deltaPos > minDistanceToFly && moveToQualify.velocity > minVelocityToFly)
+        {
+            moveToQualify.qualifiesToFly = true;
+            if (OnWingForce != null) OnWingForce(moveToQualify.velocity);
+        }
+    }
+
+    private void LogPosition()
 	{
 		logOfPreviousPositions[2] = logOfPreviousPositions[1];
 		logOfPreviousPositions[1] = logOfPreviousPositions[0];
