@@ -39,9 +39,9 @@ public class Movement : MonoBehaviour {
 
 	[SerializeField] private float minDistanceToFly;
 	[SerializeField] private float minVelocityToFly;
+    [SerializeField] private bool isLeftWing;
 
-    public static event Action<float> OnWingForce;
-    //  if (OnWingForce != null) OnWingForce(hit.collider.gameObject);
+    public static event Action<float, bool> OnWingForce;
 
     private float _timer;
 	private Vector3 _lastMovePosition;
@@ -96,16 +96,17 @@ public class Movement : MonoBehaviour {
 	
 	private void ChangeMovement(int direction)
 	{
-
-		float deltaT = _timer - listOfMoves[listOfMoves.Count - 1].startTime;
-		float deltaS =  Vector3.Distance(listOfMoves[listOfMoves.Count -1].beginPosition, logOfPreviousPositions[2]);
+        Move moveToEnd = listOfMoves[listOfMoves.Count - 1];
+        float deltaT = _timer - moveToEnd.startTime;
+		float deltaS =  Vector3.Distance(moveToEnd.beginPosition, logOfPreviousPositions[2]);
 		float velocity = deltaS / deltaT;
-		listOfMoves[listOfMoves.Count -1].velocity = velocity;
-		listOfMoves[listOfMoves.Count -1].duration = deltaT;
-		listOfMoves[listOfMoves.Count -1].deltaPos = deltaS;
-		listOfMoves[listOfMoves.Count - 1].endPosition = logOfPreviousPositions[2];
-		
-		listOfMoves.Add(new Move(_timer, transform.position, direction));
+        moveToEnd.velocity = velocity;
+        moveToEnd.duration = deltaT;
+        moveToEnd.deltaPos = deltaS;
+        moveToEnd.endPosition = logOfPreviousPositions[2];
+        listOfMoves[listOfMoves.Count - 1] = moveToEnd;
+
+        listOfMoves.Add(new Move(_timer, transform.position, direction));
 		_lastMoveDirection = direction;
 		_lastMovePosition = transform.position;
 
@@ -119,7 +120,7 @@ public class Movement : MonoBehaviour {
         if (moveToQualify.deltaPos > minDistanceToFly && moveToQualify.velocity > minVelocityToFly)
         {
             moveToQualify.qualifiesToFly = true;
-            if (OnWingForce != null) OnWingForce(moveToQualify.velocity);
+            if (OnWingForce != null) OnWingForce(moveToQualify.velocity, isLeftWing);
         }
     }
 

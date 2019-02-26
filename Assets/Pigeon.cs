@@ -20,9 +20,11 @@ public class Pigeon : MonoBehaviour {
 
     }
 
-    void AddForceToFly(float force)
+    void AddForceToFly(float force, bool isLeftWing)
     {
-        rigidbody.velocity = transform.forward + Vector3.up * force * flyMultiplier;
+        if(isLeftWing) rigidbody.velocity = transform.forward + transform.right + Vector3.up * force * flyMultiplier;
+        else rigidbody.velocity = transform.forward + (-transform.right) + Vector3.up * force * flyMultiplier;
+
         Debug.Log("ziuuu: " + force);
     }
 
