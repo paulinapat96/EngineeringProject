@@ -100,7 +100,7 @@ namespace GazeInteractionEngine
             _heading.SetPosition(0, _sceneCamera.transform.position - _sceneCamera.transform.up);
 
 
-            float thickness = .2f;
+            float thickness = 5.0f;
 
             Ray ray = _sceneCamera.ViewportPointToRay(_viewportPoint);
             RaycastHit hit;

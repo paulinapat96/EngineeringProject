@@ -157,7 +157,7 @@ PrefabInstance:
     - target: {fileID: 114039770744552444, guid: 1a363ebd9791e7d48a02435c46d956ab,
         type: 3}
       propertyPath: availableScenes.Array.data[0]
-      value: EyeKeyboard
+      value: main
       objectReference: {fileID: 0}
     - target: {fileID: 114039770744552444, guid: 1a363ebd9791e7d48a02435c46d956ab,
         type: 3}
@@ -268,6 +268,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20090834490174222, guid: 1a363ebd9791e7d48a02435c46d956ab,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20090834490174222, guid: 1a363ebd9791e7d48a02435c46d956ab,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.55428976
+      objectReference: {fileID: 0}
+    - target: {fileID: 20090834490174222, guid: 1a363ebd9791e7d48a02435c46d956ab,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.61046726
+      objectReference: {fileID: 0}
+    - target: {fileID: 20090834490174222, guid: 1a363ebd9791e7d48a02435c46d956ab,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.6792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 20090834490174222, guid: 1a363ebd9791e7d48a02435c46d956ab,
+        type: 3}
+      propertyPath: m_RenderingPath
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5361027388902413360, guid: 1a363ebd9791e7d48a02435c46d956ab, type: 3}
