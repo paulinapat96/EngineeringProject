@@ -6,6 +6,7 @@ public class Pigeon : MonoBehaviour {
 
 
     [SerializeField] float flyMultiplier;
+    [SerializeField] float forwardSpeed, leftSpeed, rightSpeed;
 
     Rigidbody rigidbody;
 
@@ -22,8 +23,8 @@ public class Pigeon : MonoBehaviour {
 
     void AddForceToFly(float force, bool isLeftWing)
     {
-        if(isLeftWing) rigidbody.velocity = transform.forward + transform.right + Vector3.up * force * flyMultiplier;
-        else rigidbody.velocity = transform.forward + (-transform.right) + Vector3.up * force * flyMultiplier;
+        if(isLeftWing) rigidbody.velocity = transform.forward * forwardSpeed + transform.right * leftSpeed + Vector3.up * force * flyMultiplier;
+        else rigidbody.velocity = transform.forward * forwardSpeed + (-transform.right * rightSpeed) + Vector3.up * force * flyMultiplier;
 
         Debug.Log("ziuuu: " + force);
     }
