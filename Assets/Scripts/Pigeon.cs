@@ -7,21 +7,23 @@ public class Pigeon : MonoBehaviour
 
     [SerializeField] float flyMultiplier;
     [SerializeField] float forwardSpeed, leftSpeed, rightSpeed;
+    [SerializeField]  bool isGrounded;
+    private Rigidbody rigidbody;
 
-    Rigidbody rigidbody;
     Camera cam;
 
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         cam = Camera.main;
+        isGrounded = true;
 
         Movement.OnWingForce += AddForceToFly;
     }
 
+
     void Update()
     {
-        //Debug.Log(cam.transform.eulerAngles.t)
         transform.rotation = Quaternion.Euler(0, cam.transform.localEulerAngles.y, 0);
     }
 
@@ -35,13 +37,27 @@ public class Pigeon : MonoBehaviour
         Debug.Log("ziuuu: " + force);
     }
 
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 8
+            && !isGrounded)
+        {
+            isGrounded = true;
+            GetComponentInChildren<Animation>().Play("PigeonShakeAnim 1");
+        }
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == 8
+            && isGrounded)
+        {
+            isGrounded = false;
+        }
+    }
+
     private void OnDestroy()
     {
         Movement.OnWingForce -= AddForceToFly;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, transform.position + rigidbody.velocity);
     }
 }
