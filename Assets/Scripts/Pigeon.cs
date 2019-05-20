@@ -24,7 +24,7 @@ public class Pigeon : MonoBehaviour
 
     void Update()
     {
-        transform.rotation = Quaternion.Euler(0, cam.transform.localEulerAngles.y, 0);
+     //   transform.rotation = Quaternion.Euler(0, cam.transform.localEulerAngles.y, 0);
     }
 
     void AddForceToFly(float force, bool isLeftWing)
