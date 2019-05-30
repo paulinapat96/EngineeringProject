@@ -426,6 +426,18 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.6f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="AsyncIO">
+      <HintPath>D:/Paulina/EngineeringProject/Assets/Packages/SteamVR and PupilLabs/GazeInteractionEngine/Dependencies/PupilLabs/pupil_plugin/Plugins/x86_64/AsyncIO.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>D:/Paulina/EngineeringProject/Assets/Packages/SteamVR and PupilLabs/GazeInteractionEngine/Dependencies/PupilLabs/pupil_plugin/Plugins/x86_64/JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="NetMQ">
+      <HintPath>D:/Paulina/EngineeringProject/Assets/Packages/SteamVR and PupilLabs/GazeInteractionEngine/Dependencies/PupilLabs/pupil_plugin/Plugins/x86_64/NetMQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Valve.Newtonsoft.Json">
+      <HintPath>D:/Paulina/EngineeringProject/Assets/Packages/SteamVR and PupilLabs/SteamVR/Input/Plugins/JSON.NET/Valve.Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>D:/Paulina/EngineeringProject/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
@@ -434,18 +446,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>D:/Paulina/EngineeringProject/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
-    </Reference>
-    <Reference Include="AsyncIO">
-      <HintPath>D:/Paulina/EngineeringProject/Assets/Packages/SteamVR and PupilLabs/GazeInteractionEngine/Dependencies/PupilLabs/pupil_plugin/Plugins/x86_64/AsyncIO.dll</HintPath>
-    </Reference>
-    <Reference Include="NetMQ">
-      <HintPath>D:/Paulina/EngineeringProject/Assets/Packages/SteamVR and PupilLabs/GazeInteractionEngine/Dependencies/PupilLabs/pupil_plugin/Plugins/x86_64/NetMQ.dll</HintPath>
-    </Reference>
-    <Reference Include="Valve.Newtonsoft.Json">
-      <HintPath>D:/Paulina/EngineeringProject/Assets/Packages/SteamVR and PupilLabs/SteamVR/Input/Plugins/JSON.NET/Valve.Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>D:/Paulina/EngineeringProject/Assets/Packages/SteamVR and PupilLabs/GazeInteractionEngine/Dependencies/PupilLabs/pupil_plugin/Plugins/x86_64/JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.6f1/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
@@ -488,13 +488,13 @@
       <Project>{4B5C8278-BBD1-F5A6-2107-AA5A6149B042}</Project>
       <Name>SteamVR</Name>
     </ProjectReference>
-    <ProjectReference Include="SteamVR_Windows_EditorHelper.csproj">
-      <Project>{14AA8279-1380-73EF-50E4-5597B88D1729}</Project>
-      <Name>SteamVR_Windows_EditorHelper</Name>
-    </ProjectReference>
     <ProjectReference Include="SteamVR_Actions.csproj">
       <Project>{E3132E64-E02F-07D7-2D13-402FF35572DD}</Project>
       <Name>SteamVR_Actions</Name>
+    </ProjectReference>
+    <ProjectReference Include="SteamVR_Windows_EditorHelper.csproj">
+      <Project>{14AA8279-1380-73EF-50E4-5597B88D1729}</Project>
+      <Name>SteamVR_Windows_EditorHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
