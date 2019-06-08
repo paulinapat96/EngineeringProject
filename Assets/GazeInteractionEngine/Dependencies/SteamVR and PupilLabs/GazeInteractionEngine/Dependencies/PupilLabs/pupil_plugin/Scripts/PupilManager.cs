@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PupilManager : MonoBehaviour 
 {
@@ -12,7 +13,9 @@ public class PupilManager : MonoBehaviour
 	Text calibrationText;
 
 	void Start()
-	{	
+	{
+        DontDestroyOnLoad(this.gameObject);
+
 		PupilTools.OnConnected += OnConnected;
 		PupilTools.OnDisconnecting += OnDisconnecting;
 		PupilTools.OnCalibrationStarted += OnCalibtaionStarted;
@@ -30,7 +33,7 @@ public class PupilManager : MonoBehaviour
 		if (calibrationText == null)
 			calibrationText = cameraObject.GetComponentInChildren<Text> ();
 
-		calibrationText.text = "Trying to connect to Pupil.\nPlease start Pupil Service/Capture\n(if you have not done so, already)";
+		calibrationText.text = "Łączenie się z PupilService.";
 	}
 
 	void OnDisconnecting()
@@ -43,7 +46,7 @@ public class PupilManager : MonoBehaviour
 
 	void OnConnected()
 	{
-		calibrationText.text = "Success";
+		calibrationText.text = "Ustanowiono połączenie";
 
 		PupilTools.CalibrationMode = calibrationMode;
 
@@ -79,7 +82,7 @@ public class PupilManager : MonoBehaviour
 
 	void ShowCalibrate()
 	{
-		calibrationText.text = "Press 'c' to start calibration.";
+		calibrationText.text = "Naciśnij 'c' aby rozpocząć kalibrację";
 	}
 
 	void OnCalibtaionStarted()
@@ -97,14 +100,16 @@ public class PupilManager : MonoBehaviour
 		
 	void OnCalibrationEnded()
 	{
-		calibrationText.text = "Calibration ended.";
+		calibrationText.text = "Kalibracja zakończona";
+
+
 
 		Invoke ("StartDemo", 1f);
 	}
 
 	void OnCalibrationFailed()
 	{
-		calibrationText.text = "Calibration failed\nPress 'c' to start it again.";
+		calibrationText.text = "Niepowodzenie kalibracji. \nNacisnij 'c' by przeprowadzić ją ponownie";
 
 		if (displayEyeImages)
 			GetComponent<FramePublishing> ().enabled = true;
@@ -138,13 +143,10 @@ public class PupilManager : MonoBehaviour
 	{
 		StartCoroutine (LoadCurrentScene());
 
-		cameraObject.SetActive (false);
-	}
+    }
 
 	void Update()
 	{
-		if (Input.GetKeyUp (KeyCode.S)) 
-			StartDemo ();
 	}
 
 	void OnDisable()

@@ -61,12 +61,6 @@ namespace Valve.VR.InteractionSystem
                     SetHandVisibility(false);
 
                 handAnimator = handInstance.GetComponentInChildren<Animator>();
-
-                if (handSkeleton.skeletonAction.activeBinding == false)
-                {
-                    Debug.LogWarning("Skeleton action: " + handSkeleton.skeletonAction.GetPath() + " is not bound. Your controller may not support SteamVR Skeleton Input.");
-                    DestroyHand();
-                }
             }
         }
 
@@ -358,10 +352,7 @@ namespace Valve.VR.InteractionSystem
         {
             get
             {
-                if (handSkeleton != null)
-                    return handSkeleton.rangeOfMotion;
-                else
-                    return EVRSkeletalMotionRange.WithController;
+                return handSkeleton.rangeOfMotion;
             }
         }
 

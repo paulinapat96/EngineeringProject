@@ -53,7 +53,7 @@ namespace Valve.VR
                 {
                     UnityEditor.PlayerSettings.virtualRealitySupported = true;
                     enabledVR = true;
-                    Debug.Log("<b>[SteamVR Setup]</b> Enabled virtual reality support in Player Settings. (you can disable this by unchecking Assets/SteamVR/SteamVR_Settings.autoEnableVR)");
+                    Debug.Log("<b>[SteamVR Setup]</b> Enabled virtual reality support in Player Settings.");
                 }
 
                 UnityEditor.BuildTargetGroup currentTarget = UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup;

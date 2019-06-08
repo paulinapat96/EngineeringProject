@@ -13,7 +13,7 @@ public class Cube : MonoBehaviour
     private void Start()
     {
         startPosition = transform.position;
-        _meshRenderer = GetComponentInChildren<MeshRenderer>();
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 
 
@@ -27,7 +27,7 @@ public class Cube : MonoBehaviour
 
     public void OnEndInteraction()
     {
-        _meshRenderer.material.color = Color.white;
+        _meshRenderer.material.color = Color.red;
     }
 
     public void ChangeColor()

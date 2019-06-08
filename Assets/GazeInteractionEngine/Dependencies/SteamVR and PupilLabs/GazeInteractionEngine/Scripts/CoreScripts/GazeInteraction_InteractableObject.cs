@@ -82,7 +82,8 @@ namespace GazeInteractionEngine
             else
             {
                 _isInThreshold = false;
-
+                if(OnStayInteration != null)
+                    OnStayInteration.Invoke();
 
             }
 

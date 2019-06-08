@@ -275,11 +275,6 @@ namespace Valve.VR.InteractionSystem
                 hoverhighlightRenderModel.SetHandVisibility(false, permanent);
         }
 
-        public bool HasSkeleton()
-        {
-            return mainRenderModel != null && mainRenderModel.GetSkeleton() != null;
-        }
-
         public void Show()
         {
             SetVisibility(true);
@@ -459,7 +454,7 @@ namespace Valve.VR.InteractionSystem
 
             if (attachedObject.HasAttachFlag(AttachmentFlags.SnapOnAttach))
             {
-                if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null && HasSkeleton())
+                if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null)
                 {
                     SteamVR_Skeleton_PoseSnapshot pose = attachedObject.interactable.skeletonPoser.GetBlendedPose(skeleton);
 
@@ -496,7 +491,7 @@ namespace Valve.VR.InteractionSystem
             }
             else
             {
-                if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null && HasSkeleton())
+                if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null)
                 {
                     attachedObject.initialPositionalOffset = attachedObject.handAttachmentPointTransform.InverseTransformPoint(objectToAttach.transform.position);
                     attachedObject.initialRotationalOffset = Quaternion.Inverse(attachedObject.handAttachmentPointTransform.rotation) * objectToAttach.transform.rotation;
@@ -642,7 +637,7 @@ namespace Valve.VR.InteractionSystem
                     }
                 }
 
-                if (attachedObjects[index].interactable != null && attachedObjects[index].interactable.handFollowTransform && HasSkeleton())
+                if (attachedObjects[index].interactable != null && attachedObjects[index].interactable.handFollowTransform)
                 {
                     skeleton.transform.localPosition = Vector3.zero;
                     skeleton.transform.localRotation = Quaternion.identity;
@@ -1106,7 +1101,7 @@ namespace Valve.VR.InteractionSystem
                 {
                     SteamVR_Skeleton_PoseSnapshot pose = null;
 
-                    if (currentAttachedObjectInfo.Value.interactable.skeletonPoser != null && HasSkeleton())
+                    if (currentAttachedObjectInfo.Value.interactable.skeletonPoser != null)
                     {
                         pose = currentAttachedObjectInfo.Value.interactable.skeletonPoser.GetBlendedPose(skeleton);
                     }
@@ -1229,7 +1224,7 @@ namespace Valve.VR.InteractionSystem
 
         protected Vector3 TargetItemPosition(AttachedObject attachedObject)
         {
-            if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null && HasSkeleton())
+            if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null)
             {
                 Vector3 tp = attachedObject.handAttachmentPointTransform.InverseTransformPoint(transform.TransformPoint(attachedObject.interactable.skeletonPoser.GetBlendedPose(skeleton).position));
                 //tp.x *= -1;
@@ -1243,7 +1238,7 @@ namespace Valve.VR.InteractionSystem
 
         protected Quaternion TargetItemRotation(AttachedObject attachedObject)
         {
-            if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null && HasSkeleton())
+            if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null)
             {
                 Quaternion tr = Quaternion.Inverse(attachedObject.handAttachmentPointTransform.rotation) * (transform.rotation * attachedObject.interactable.skeletonPoser.GetBlendedPose(skeleton).rotation);
                 return currentAttachedObjectInfo.Value.handAttachmentPointTransform.rotation * tr;

@@ -283,7 +283,7 @@ namespace Valve.VR.InteractionSystem
 
             if (skeletonPoser != null && hand.skeleton != null)
             {
-                hand.skeleton.BlendToPoser(skeletonPoser, blendToPoseTime);
+                hand.skeleton.BlendToPoser(skeletonPoser, this.transform, blendToPoseTime);
             }
 
             attachedToHand = hand;
@@ -310,7 +310,7 @@ namespace Valve.VR.InteractionSystem
             if (skeletonPoser != null)
             {
                 if (hand.skeleton != null)
-                    hand.skeleton.BlendToSkeleton(releasePoseBlendTime);
+                    hand.skeleton.BlendToSkeleton(releasePoseBlendTime, true);
             }
 
             attachedToHand = null;

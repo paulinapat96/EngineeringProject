@@ -84,6 +84,7 @@ namespace GazeInteractionEngine
                 _isInThreshold = false;
                 _currentFocusTime += Time.deltaTime;
 
+
                 if(buttonBackgroundImage)
                     buttonBackgroundImage.fillAmount = (_currentFocusTime / focusTime);
 
@@ -148,6 +149,7 @@ namespace GazeInteractionEngine
 
                 if(buttonBackgroundImage)
                     buttonBackgroundImage.fillAmount = (_currentFocusTime / focusTime);
+
                 yield return new WaitForEndOfFrame();
             }
 
@@ -155,19 +157,17 @@ namespace GazeInteractionEngine
 
         private IEnumerator PressedButton()
         {
-
-
             Animator animator = null;
-                
+
             if(buttonBackgroundImage)
                 animator = buttonBackgroundImage.GetComponent<Animator>();
 
-
             if(animator)
                 animator.SetBool("animate", true);
-            this.GetComponent<BoxCollider>().enabled = false;
+
+            this.GetComponent<Collider>().enabled = false;
             yield return new WaitForSeconds(buttonTimeout);
-            this.GetComponent<BoxCollider>().enabled = true;
+            this.GetComponent<Collider>().enabled = true;
 
             if (animator)
                 animator.SetBool("animate", false);

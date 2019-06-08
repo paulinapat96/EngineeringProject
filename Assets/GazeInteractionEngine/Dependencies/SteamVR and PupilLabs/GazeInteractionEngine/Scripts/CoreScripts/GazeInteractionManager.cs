@@ -29,8 +29,10 @@ namespace GazeInteractionEngine
         private Vector3 _gazeEmulateNoise;
         private Vector3 _gazeEmulatePosition;
 
+        public LayerMask layerMask;
 
         public bool GazeEmulate = true;
+        public bool NoEmulate = false;
         private IGazeListener _currentListener;
 
 
@@ -74,22 +76,27 @@ namespace GazeInteractionEngine
                 _gazePointCenter = PupilData._2D.GazePosition;
 
                 Vector3 gazeTargetPos = new Vector3(_gazePointCenter.x, _gazePointCenter.y, 10.0f);
-                _viewportPoint = Vector3.Lerp(_viewportPoint, gazeTargetPos, 10.0f * Time.deltaTime);
+                _viewportPoint = Vector3.Lerp(_viewportPoint, gazeTargetPos, 30.0f * Time.deltaTime);
 
             }
             else
             {
-                Vector3 gazeNoise = new Vector3(Random.Range(-0.06f, 0.06f), Random.Range(-0.06f, 0.06f), 0);
+                //Vector3 gazeNoise = new Vector3(Random.Range(-0.06f, 0.06f), Random.Range(-0.06f, 0.06f), 0);
 
                 if (GazeEmulate)
                 {
                     Vector3 tmpViewPort = Input.mousePosition;
                     tmpViewPort = new Vector3(tmpViewPort.x / Screen.currentResolution.width, tmpViewPort.y / Screen.currentResolution.height, 10);                    
-                    _viewportPoint = Vector3.Lerp(_viewportPoint, tmpViewPort, 25.0f * Time.deltaTime);
+                    _viewportPoint = Vector3.Lerp(_viewportPoint, tmpViewPort, 250.0f * Time.deltaTime);
 
-                }                    
-                else
-                    _viewportPoint = Vector3.Lerp(_viewportPoint, _standardViewportPoint + gazeNoise, 25.0f * Time.deltaTime);
+                }  
+                if(NoEmulate)
+                {
+                    GazeEmulate = false;
+                    _viewportPoint = _standardViewportPoint;
+                }
+                //else
+                    //_viewportPoint = Vector3.Lerp(_viewportPoint, _standardViewportPoint + gazeNoise, 25.0f * Time.deltaTime);
 
             }
 
@@ -100,25 +107,44 @@ namespace GazeInteractionEngine
             _heading.SetPosition(0, _sceneCamera.transform.position - _sceneCamera.transform.up);
 
 
-            float thickness = 5.0f;
+            float thickness = 1.0f;
 
             Ray ray = _sceneCamera.ViewportPointToRay(_viewportPoint);
             RaycastHit hit;
-            if (Physics.SphereCast(ray, thickness, out hit))
+            if (Physics.SphereCast(ray, thickness, out hit, Mathf.Infinity, layerMask))
             {
                 _gazeWorldPosition = hit.point;
+
+
 
                 if (hit.transform.GetComponent<IGazeListener>() != null)
                 {
                     IGazeListener listener = hit.transform.GetComponent<IGazeListener>();
                     listener.OnEvent(EVENT_TYPE.ON_EYE_INTERACTION, this, null);
 
-                    if(_currentListener != null && _currentListener != listener)
-                        _currentListener.OnEvent(EVENT_TYPE.ON_EYE_STOP_INTERACTION, this, null);
+                    if (_currentListener != null && _currentListener != listener)
+                        try
+                        {
+                            _currentListener.OnEvent(EVENT_TYPE.ON_EYE_STOP_INTERACTION, this, null);
+                        }
+                        catch { }
 
                     _currentListener = listener;                   
 
                 }
+                else
+                {
+                    if (_currentListener != null)
+                    {
+                        try
+                        {
+                            _currentListener.OnEvent(EVENT_TYPE.ON_EYE_STOP_INTERACTION, this, null);
+                        }
+                        catch { }
+                        _currentListener = null;
+                    }
+                }
+
                 _heading.SetPosition(1, hit.point);
             }
             else
@@ -129,8 +155,15 @@ namespace GazeInteractionEngine
 
                 if (_currentListener != null)
                 {
-                    _currentListener.OnEvent(EVENT_TYPE.ON_EYE_STOP_INTERACTION, this, null);
-                    _currentListener = null;
+                    try
+                    {
+                        _currentListener.OnEvent(EVENT_TYPE.ON_EYE_STOP_INTERACTION, this, null);
+                    }
+                    catch
+                    {
+
+                    }
+                        _currentListener = null;
                 }
             }
         }      

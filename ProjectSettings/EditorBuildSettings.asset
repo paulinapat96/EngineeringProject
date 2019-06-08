@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/main.unity
+    path: Assets/Scenes/PigeonRunGame.unity
     guid: 733a4fd0b76d9ca4ba0c136dffa83764
+  - enabled: 1
+    path: Assets/Scenes/KurzoGame.unity
+    guid: 17029b2352e997c43b95e0335f65f839
   m_configObjects: {}
