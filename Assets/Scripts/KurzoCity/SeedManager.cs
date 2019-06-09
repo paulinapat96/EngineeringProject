@@ -19,7 +19,7 @@ public class SeedManager : MonoBehaviour
 
     private float _spawnInterval = 2.0f;
     private float _currentInterval = 0.0f;
-    public int seedPicked = 0;
+    public static int currentSeed;
 
     private float _maximumInterval;
 
@@ -38,7 +38,7 @@ public class SeedManager : MonoBehaviour
 
     public void OnPickedSeed(Seed seed)
     {
-        seedPicked++;
+        currentSeed++;
         SetSpawnClear(seed);
         _audioSource.PlayOneShot(picked);
         _seedList.Remove(seed);
@@ -49,16 +49,17 @@ public class SeedManager : MonoBehaviour
     [SerializeField] Slider seedsSlider;
     private void UpdateSlider()
     {
-        seedsSlider.value = seedPicked;
+        seedsSlider.value = currentSeed;
     }
 
     private void SetValues()
     {
-        seedPicked = 0;
+        currentSeed = 0;
     }
 
     private void Start()
     {
+        currentSeed = 0;
         SetValues();
         transformStatus = new List<TransformStatus>();
 
@@ -186,11 +187,11 @@ public class SeedManager : MonoBehaviour
         _currentInterval += Time.deltaTime;
 
 
-        if (_currentInterval >= Mathf.Clamp(_spawnInterval - (seedPicked * 0.2f), 2.2f, _spawnInterval))
+        if (_currentInterval >= Mathf.Clamp(_spawnInterval - (currentSeed * 0.2f), 2.2f, _spawnInterval))
         {
             _currentInterval = 0.0f;
 
-            for (int i = 0; i < (int)Mathf.Clamp(seedPicked / 9, 1, 5); i++)
+            for (int i = 0; i < (int)Mathf.Clamp(currentSeed / 9, 1, 5); i++)
                 SpawnSeed();
         }
     }

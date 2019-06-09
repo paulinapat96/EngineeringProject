@@ -2729,7 +2729,7 @@ GameObject:
   - component: {fileID: 1201825105}
   - component: {fileID: 1201825106}
   m_Layer: 0
-  m_Name: '[GameManager]'
+  m_Name: _Logic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2803,7 +2803,6 @@ MonoBehaviour:
   - {fileID: 1361771534}
   picked: {fileID: 8300000, guid: 18e53b41fff20d94688468c9f8c0ca69, type: 3}
   failed: {fileID: 8300000, guid: 2660351d3f94f694aae466bc00025dec, type: 3}
-  seedPicked: 0
   seedsSlider: {fileID: 565203245}
 --- !u!114 &1201825105
 MonoBehaviour:

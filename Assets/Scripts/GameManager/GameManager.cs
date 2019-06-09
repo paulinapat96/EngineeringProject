@@ -48,7 +48,7 @@ public class GameManager : MonoSingleton<GameManager>
             GetComponent<AudioSource>().PlayOneShot(endGame);
             description.color = Color.blue;
             description.fontSize = 70;
-            description.text = "You collected " + _seedManager.seedPicked + " seeds. \nGet ready for the flight!";
+            description.text = "You collected " + SeedManager.currentSeed + " seeds. \nGet ready for the flight!";
             StartCoroutine(ChangeScene());
         }
 
@@ -64,9 +64,9 @@ public class GameManager : MonoSingleton<GameManager>
     {
         _seedManager.OnPickedSeed(seed);
 
-        Debug.Log(_seedManager.seedPicked);
+        Debug.Log(SeedManager.currentSeed);
 
-        if (_seedManager.seedPicked == 2 || _seedManager.seedPicked == 5 || _seedManager.seedPicked == 10)
+        if (SeedManager.currentSeed == 2 || SeedManager.currentSeed == 5 || SeedManager.currentSeed == 10)
             _chickenManager.ActivateChicken();
 
     }
