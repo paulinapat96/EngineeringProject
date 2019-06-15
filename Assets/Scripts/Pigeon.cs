@@ -7,33 +7,38 @@ public class Pigeon : MonoBehaviour
 
     [SerializeField] float flyMultiplier;
     [SerializeField] float forwardSpeed, leftSpeed, rightSpeed;
-    [SerializeField]  bool isGrounded;
-    private Rigidbody rigidbody;
+    [SerializeField] bool isGrounded;
+    private Rigidbody rb;
 
-    Camera cam;
+    private Vector3 _movement;
+
+    private Vector3 _drawPosition = new Vector3(-10, 0, -10);
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        cam = Camera.main;
+        rb = GetComponent<Rigidbody>();
         isGrounded = true;
+        _movement = Vector3.zero;
 
         Movement.OnWingForce += AddForceToFly;
     }
 
-
     void Update()
     {
-     //   transform.rotation = Quaternion.Euler(0, cam.transform.localEulerAngles.y, 0);
     }
 
     void AddForceToFly(float force, bool isLeftWing)
     {
         if (isLeftWing)
-            rigidbody.velocity = transform.forward * forwardSpeed + transform.right * leftSpeed + Vector3.up * force * flyMultiplier;
+            _movement += transform.right * leftSpeed * force;
         else
-            rigidbody.velocity = transform.forward * forwardSpeed + (-transform.right * rightSpeed) + Vector3.up * force * flyMultiplier;
+            _movement -= transform.right * rightSpeed * force;
 
+        _movement.z = forwardSpeed;
+        _movement = Vector3.ClampMagnitude(_movement, forwardSpeed);
+        _movement.y = flyMultiplier * force;
+
+        rb.velocity = _movement;
         Debug.Log("ziuuu: " + force);
     }
 
@@ -59,5 +64,11 @@ public class Pigeon : MonoBehaviour
     private void OnDestroy()
     {
         Movement.OnWingForce -= AddForceToFly;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(_drawPosition, _drawPosition + _movement);
     }
 }

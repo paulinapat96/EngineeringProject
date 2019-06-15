@@ -19,7 +19,7 @@ public class SeedManager : MonoBehaviour
 
     private float _spawnInterval = 2.0f;
     private float _currentInterval = 0.0f;
-    public static int currentSeed;
+    public static float currentSeed;
 
     private float _maximumInterval;
 
@@ -38,7 +38,7 @@ public class SeedManager : MonoBehaviour
 
     public void OnPickedSeed(Seed seed)
     {
-        currentSeed++;
+        currentSeed += 3;
         SetSpawnClear(seed);
         _audioSource.PlayOneShot(picked);
         _seedList.Remove(seed);

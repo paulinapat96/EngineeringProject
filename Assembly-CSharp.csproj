@@ -199,7 +199,8 @@
     <Compile Include="Assets\GazeInteractionEngine\Dependencies\SteamVR and PupilLabs\GazeInteractionEngine\Scripts\CoreScripts\GazeInteractionManager.cs" />
     <Compile Include="Assets\GazeInteractionEngine\Dependencies\SteamVR and PupilLabs\GazeInteractionEngine\Scripts\CoreScripts\IGazeListener.cs" />
     <Compile Include="Assets\GazeInteractionEngine\Dependencies\SteamVR and PupilLabs\GazeInteractionEngine\Scripts\Debug\GazeInteractionEngineDebug.cs" />
-    <Compile Include="Assets\GazeInteractionEngine\Dependencies\SteamVR and PupilLabs\GazeInteractionEngine\Scripts\Examples\Cube.cs" />
+    <Compile Include="Assets\GazeInteractionEngine\Dependencies\SteamVR and PupilLabs\GazeInteractionEngine\Scripts\Examples\KaiserRoll.cs" />
+    <Compile Include="Assets\Scripts\GameLogic.cs" />
     <Compile Include="Assets\Scripts\GameManager\GameManager.cs" />
     <Compile Include="Assets\Scripts\KurzoCity\Chicken.cs" />
     <Compile Include="Assets\Scripts\KurzoCity\ChickenManager.cs" />

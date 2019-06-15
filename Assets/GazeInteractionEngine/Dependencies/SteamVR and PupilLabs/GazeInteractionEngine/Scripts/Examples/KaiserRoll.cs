@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cube : MonoBehaviour
+public class KaiserRoll : MonoBehaviour
 {
 
     private MeshRenderer _meshRenderer;
@@ -16,18 +16,17 @@ public class Cube : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
-
-
-
     public void PlaySound()
     {
         this.GetComponent<AudioSource>().Play();
-        _meshRenderer.material.color = Color.green;
+        
     }
 
     public void OnEndInteraction()
     {
-        _meshRenderer.material.color = Color.red;
+       //Debug.Log("Koniec patrzenia!");
+        this.gameObject.SetActive(false);
+        SeedManager.currentSeed += 10;
     }
 
     public void ChangeColor()

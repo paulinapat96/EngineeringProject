@@ -10,12 +10,14 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] private Slider seedSlider;
     [SerializeField] private List<GameObject> tutorialPanels;
+    [SerializeField] private GameObject endPanel;
 
     private int currentTutorialPanel;
 
     void Start()
     {
         currentTutorialPanel = tutorialPanels.Count-1;
+        endPanel.SetActive(false);
         ScrollTutorial();
 
     }
@@ -31,6 +33,16 @@ public class UIController : MonoBehaviour
             
             ScrollTutorial(); 
         }
+
+        if(SeedManager.currentSeed <= 0)
+        {
+            EndGame();
+        }
+    }
+
+    private void EndGame()
+    {
+        endPanel.SetActive(true);
     }
 
     private void ScrollTutorial()

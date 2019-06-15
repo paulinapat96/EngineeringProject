@@ -14,6 +14,7 @@ public class GameManager : MonoSingleton<GameManager>
     private Camera _playerCamera;
     [SerializeField] private float timer;
     [SerializeField] Image timerSlider;
+    private float gameTime = 30;
 
     SeedManager _seedManager;
     ChickenManager _chickenManager;
@@ -39,16 +40,15 @@ public class GameManager : MonoSingleton<GameManager>
     private void Update()
     {
         timer += Time.deltaTime;
-        timerSlider.fillAmount = timer/60;
+        timerSlider.fillAmount = timer/ gameTime;
    
 
-        if (timer >= 60.0)
+        if (timer >= gameTime)
         {
             _seedManager.EndGame();
             GetComponent<AudioSource>().PlayOneShot(endGame);
-            description.color = Color.blue;
             description.fontSize = 70;
-            description.text = "You collected " + SeedManager.currentSeed + " seeds. \nGet ready for the flight!";
+            description.text = "You ate a lot of seeds! \n<color='red'>Get ready for the flight!</color>";
             StartCoroutine(ChangeScene());
         }
 
@@ -66,7 +66,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         Debug.Log(SeedManager.currentSeed);
 
-        if (SeedManager.currentSeed == 2 || SeedManager.currentSeed == 5 || SeedManager.currentSeed == 10)
+        if (SeedManager.currentSeed == 3 || SeedManager.currentSeed == 9 || SeedManager.currentSeed == 15)
             _chickenManager.ActivateChicken();
 
     }
@@ -78,7 +78,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public IEnumerator ChangeScene()
     {
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSeconds(6.0f);
         Destroy(GameManager.instance.gameObject);
         SceneManager.LoadScene("PigeonRunGame");
     }
