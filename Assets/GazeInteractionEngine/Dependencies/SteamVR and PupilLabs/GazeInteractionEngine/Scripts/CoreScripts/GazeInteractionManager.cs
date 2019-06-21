@@ -55,6 +55,13 @@ namespace GazeInteractionEngine
             _sceneCamera = gameObject.GetComponent<Camera>();
             _calibrationDemo = gameObject.GetComponent<CalibrationDemo>();
             _heading = gameObject.GetComponent<LineRenderer>();
+            if(MainMenuLogic.wasCalibration == null || MainMenuLogic.wasCalibration == false) NoEmulate = true;
+            else
+            {
+                GazeEmulate = false;
+                NoEmulate = false;
+            }
+
         }
 
         void OnEnable()

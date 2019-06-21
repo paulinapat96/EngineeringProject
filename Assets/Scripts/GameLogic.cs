@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameLogic : MonoBehaviour
 {
+    [SerializeField] Material barrierMaterial;
 
     void Start()
     {
@@ -25,5 +26,6 @@ public class GameLogic : MonoBehaviour
         {
             Time.timeScale = 0;
         }
+        barrierMaterial.mainTextureOffset = new Vector2(barrierMaterial.mainTextureOffset.x, barrierMaterial.mainTextureOffset.y + 0.001f);
     }
 }

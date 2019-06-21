@@ -275,6 +275,11 @@ namespace Valve.VR.InteractionSystem
                 hoverhighlightRenderModel.SetHandVisibility(false, permanent);
         }
 
+        public bool HasSkeleton()
+        {
+            return mainRenderModel != null && mainRenderModel.GetSkeleton() != null;
+        }
+
         public void Show()
         {
             SetVisibility(true);
@@ -454,7 +459,7 @@ namespace Valve.VR.InteractionSystem
 
             if (attachedObject.HasAttachFlag(AttachmentFlags.SnapOnAttach))
             {
-                if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null)
+                if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null && HasSkeleton())
                 {
                     SteamVR_Skeleton_PoseSnapshot pose = attachedObject.interactable.skeletonPoser.GetBlendedPose(skeleton);
 
@@ -491,7 +496,7 @@ namespace Valve.VR.InteractionSystem
             }
             else
             {
-                if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null)
+                if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null && HasSkeleton())
                 {
                     attachedObject.initialPositionalOffset = attachedObject.handAttachmentPointTransform.InverseTransformPoint(objectToAttach.transform.position);
                     attachedObject.initialRotationalOffset = Quaternion.Inverse(attachedObject.handAttachmentPointTransform.rotation) * objectToAttach.transform.rotation;
@@ -637,7 +642,7 @@ namespace Valve.VR.InteractionSystem
                     }
                 }
 
-                if (attachedObjects[index].interactable != null && attachedObjects[index].interactable.handFollowTransform)
+                if (attachedObjects[index].interactable != null && attachedObjects[index].interactable.handFollowTransform && HasSkeleton())
                 {
                     skeleton.transform.localPosition = Vector3.zero;
                     skeleton.transform.localRotation = Quaternion.identity;
@@ -1101,7 +1106,7 @@ namespace Valve.VR.InteractionSystem
                 {
                     SteamVR_Skeleton_PoseSnapshot pose = null;
 
-                    if (currentAttachedObjectInfo.Value.interactable.skeletonPoser != null)
+                    if (currentAttachedObjectInfo.Value.interactable.skeletonPoser != null && HasSkeleton())
                     {
                         pose = currentAttachedObjectInfo.Value.interactable.skeletonPoser.GetBlendedPose(skeleton);
                     }
@@ -1222,9 +1227,18 @@ namespace Valve.VR.InteractionSystem
             }
         }
 
+        /// <summary>
+        /// Snap an attached object to its target position and rotation. Good for error correction.
+        /// </summary>
+        public void ResetAttachedTransform(AttachedObject attachedObject)
+        {
+            attachedObject.attachedObject.transform.position = TargetItemPosition(attachedObject);
+            attachedObject.attachedObject.transform.rotation = TargetItemRotation(attachedObject);
+        }
+
         protected Vector3 TargetItemPosition(AttachedObject attachedObject)
         {
-            if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null)
+            if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null && HasSkeleton())
             {
                 Vector3 tp = attachedObject.handAttachmentPointTransform.InverseTransformPoint(transform.TransformPoint(attachedObject.interactable.skeletonPoser.GetBlendedPose(skeleton).position));
                 //tp.x *= -1;
@@ -1238,7 +1252,7 @@ namespace Valve.VR.InteractionSystem
 
         protected Quaternion TargetItemRotation(AttachedObject attachedObject)
         {
-            if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null)
+            if (attachedObject.interactable != null && attachedObject.interactable.skeletonPoser != null && HasSkeleton())
             {
                 Quaternion tr = Quaternion.Inverse(attachedObject.handAttachmentPointTransform.rotation) * (transform.rotation * attachedObject.interactable.skeletonPoser.GetBlendedPose(skeleton).rotation);
                 return currentAttachedObjectInfo.Value.handAttachmentPointTransform.rotation * tr;
@@ -1630,47 +1644,4 @@ namespace Valve.VR.InteractionSystem
 
     [System.Serializable]
     public class HandEvent : UnityEvent<Hand> { }
-
-
-#if UNITY_EDITOR
-    //-------------------------------------------------------------------------
-    [UnityEditor.CustomEditor(typeof(Hand))]
-    public class HandEditor : UnityEditor.Editor
-    {
-        //-------------------------------------------------
-        // Custom Inspector GUI allows us to click from within the UI
-        //-------------------------------------------------
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
-
-            /*
-            Hand hand = (Hand)target;
-
-            if (hand.otherHand)
-            {
-                if (hand.otherHand.otherHand != hand)
-                {
-                    UnityEditor.EditorGUILayout.HelpBox("The otherHand of this Hand's otherHand is not this Hand.", UnityEditor.MessageType.Warning);
-                }
-
-                if (hand.handType == SteamVR_Input_Sources.LeftHand && hand.otherHand && hand.otherHand.handType != SteamVR_Input_Sources.RightHand)
-                {
-                    UnityEditor.EditorGUILayout.HelpBox("This is a left Hand but otherHand is not a right Hand.", UnityEditor.MessageType.Warning);
-                }
-
-                if (hand.handType == SteamVR_Input_Sources.RightHand && hand.otherHand && hand.otherHand.handType != SteamVR_Input_Sources.LeftHand)
-                {
-                    UnityEditor.EditorGUILayout.HelpBox("This is a right Hand but otherHand is not a left Hand.", UnityEditor.MessageType.Warning);
-                }
-
-                if (hand.handType == SteamVR_Input_Sources.Any && hand.otherHand && hand.otherHand.handType != SteamVR_Input_Sources.Any)
-                {
-                    UnityEditor.EditorGUILayout.HelpBox("This is an any-handed Hand but otherHand is not an any-handed Hand.", UnityEditor.MessageType.Warning);
-                }
-            }
-            */ //removing for now because it conflicts with other input sources (trackers and such)
-        }
-    }
-#endif
 }

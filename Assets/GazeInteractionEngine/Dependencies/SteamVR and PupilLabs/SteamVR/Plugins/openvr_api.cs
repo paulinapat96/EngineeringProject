@@ -4,6 +4,7 @@
 // This file is auto-generated, do not edit it.
 //
 //=============================================================================
+//sdk version 1.4.18
 
 using System;
 using System.Runtime.InteropServices;
@@ -640,6 +641,11 @@ public struct IVRChaperoneSetup
 	[MarshalAs(UnmanagedType.FunctionPtr)]
 	internal _HideWorkingSetPreview HideWorkingSetPreview;
 
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+	internal delegate void _RoomSetupStarting();
+	[MarshalAs(UnmanagedType.FunctionPtr)]
+	internal _RoomSetupStarting RoomSetupStarting;
+
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -691,7 +697,7 @@ public struct IVRCompositor
 	internal _GetFrameTiming GetFrameTiming;
 
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate uint _GetFrameTimings(ref Compositor_FrameTiming pTiming, uint nFrames);
+	internal delegate uint _GetFrameTimings([In, Out] Compositor_FrameTiming[] pTiming, uint nFrames);
 	[MarshalAs(UnmanagedType.FunctionPtr)]
 	internal _GetFrameTimings GetFrameTimings;
 
@@ -864,6 +870,16 @@ public struct IVRCompositor
 	internal delegate bool _IsMotionSmoothingEnabled();
 	[MarshalAs(UnmanagedType.FunctionPtr)]
 	internal _IsMotionSmoothingEnabled IsMotionSmoothingEnabled;
+
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+	internal delegate bool _IsMotionSmoothingSupported();
+	[MarshalAs(UnmanagedType.FunctionPtr)]
+	internal _IsMotionSmoothingSupported IsMotionSmoothingSupported;
+
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+	internal delegate bool _IsCurrentSceneFocusAppLoading();
+	[MarshalAs(UnmanagedType.FunctionPtr)]
+	internal _IsCurrentSceneFocusAppLoading IsCurrentSceneFocusAppLoading;
 
 }
 
@@ -1576,9 +1592,14 @@ public struct IVRInput
 	internal _GetAnalogActionData GetAnalogActionData;
 
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate EVRInputError _GetPoseActionData(ulong action, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, ref InputPoseActionData_t pActionData, uint unActionDataSize, ulong ulRestrictToDevice);
+	internal delegate EVRInputError _GetPoseActionDataRelativeToNow(ulong action, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, ref InputPoseActionData_t pActionData, uint unActionDataSize, ulong ulRestrictToDevice);
 	[MarshalAs(UnmanagedType.FunctionPtr)]
-	internal _GetPoseActionData GetPoseActionData;
+	internal _GetPoseActionDataRelativeToNow GetPoseActionDataRelativeToNow;
+
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+	internal delegate EVRInputError _GetPoseActionDataForNextFrame(ulong action, ETrackingUniverseOrigin eOrigin, ref InputPoseActionData_t pActionData, uint unActionDataSize, ulong ulRestrictToDevice);
+	[MarshalAs(UnmanagedType.FunctionPtr)]
+	internal _GetPoseActionDataForNextFrame GetPoseActionDataForNextFrame;
 
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate EVRInputError _GetSkeletalActionData(ulong action, ref InputSkeletalActionData_t pActionData, uint unActionDataSize);
@@ -1616,7 +1637,7 @@ public struct IVRInput
 	internal _GetSkeletalBoneData GetSkeletalBoneData;
 
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate EVRInputError _GetSkeletalSummaryData(ulong action, ref VRSkeletalSummaryData_t pSkeletalSummaryData);
+	internal delegate EVRInputError _GetSkeletalSummaryData(ulong action, EVRSummaryType eSummaryType, ref VRSkeletalSummaryData_t pSkeletalSummaryData);
 	[MarshalAs(UnmanagedType.FunctionPtr)]
 	internal _GetSkeletalSummaryData GetSkeletalSummaryData;
 
@@ -1659,6 +1680,11 @@ public struct IVRInput
 	internal delegate EVRInputError _ShowBindingsForActionSet([In, Out] VRActiveActionSet_t[] pSets, uint unSizeOfVRSelectedActionSet_t, uint unSetCount, ulong originToHighlight);
 	[MarshalAs(UnmanagedType.FunctionPtr)]
 	internal _ShowBindingsForActionSet ShowBindingsForActionSet;
+
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+	internal delegate bool _IsUsingLegacyInput();
+	[MarshalAs(UnmanagedType.FunctionPtr)]
+	internal _IsUsingLegacyInput IsUsingLegacyInput;
 
 }
 
@@ -2471,6 +2497,10 @@ public class CVRChaperoneSetup
 	{
 		FnTable.HideWorkingSetPreview();
 	}
+	public void RoomSetupStarting()
+	{
+		FnTable.RoomSetupStarting();
+	}
 }
 
 
@@ -2523,9 +2553,9 @@ public class CVRCompositor
 		bool result = FnTable.GetFrameTiming(ref pTiming,unFramesAgo);
 		return result;
 	}
-	public uint GetFrameTimings(ref Compositor_FrameTiming pTiming,uint nFrames)
+	public uint GetFrameTimings(Compositor_FrameTiming [] pTiming)
 	{
-		uint result = FnTable.GetFrameTimings(ref pTiming,nFrames);
+		uint result = FnTable.GetFrameTimings(pTiming,(uint) pTiming.Length);
 		return result;
 	}
 	public float GetFrameTimeRemaining()
@@ -2680,6 +2710,16 @@ public class CVRCompositor
 	public bool IsMotionSmoothingEnabled()
 	{
 		bool result = FnTable.IsMotionSmoothingEnabled();
+		return result;
+	}
+	public bool IsMotionSmoothingSupported()
+	{
+		bool result = FnTable.IsMotionSmoothingSupported();
+		return result;
+	}
+	public bool IsCurrentSceneFocusAppLoading()
+	{
+		bool result = FnTable.IsCurrentSceneFocusAppLoading();
 		return result;
 	}
 }
@@ -3502,9 +3542,14 @@ public class CVRInput
 		EVRInputError result = FnTable.GetAnalogActionData(action,ref pActionData,unActionDataSize,ulRestrictToDevice);
 		return result;
 	}
-	public EVRInputError GetPoseActionData(ulong action,ETrackingUniverseOrigin eOrigin,float fPredictedSecondsFromNow,ref InputPoseActionData_t pActionData,uint unActionDataSize,ulong ulRestrictToDevice)
+	public EVRInputError GetPoseActionDataRelativeToNow(ulong action,ETrackingUniverseOrigin eOrigin,float fPredictedSecondsFromNow,ref InputPoseActionData_t pActionData,uint unActionDataSize,ulong ulRestrictToDevice)
 	{
-		EVRInputError result = FnTable.GetPoseActionData(action,eOrigin,fPredictedSecondsFromNow,ref pActionData,unActionDataSize,ulRestrictToDevice);
+		EVRInputError result = FnTable.GetPoseActionDataRelativeToNow(action,eOrigin,fPredictedSecondsFromNow,ref pActionData,unActionDataSize,ulRestrictToDevice);
+		return result;
+	}
+	public EVRInputError GetPoseActionDataForNextFrame(ulong action,ETrackingUniverseOrigin eOrigin,ref InputPoseActionData_t pActionData,uint unActionDataSize,ulong ulRestrictToDevice)
+	{
+		EVRInputError result = FnTable.GetPoseActionDataForNextFrame(action,eOrigin,ref pActionData,unActionDataSize,ulRestrictToDevice);
 		return result;
 	}
 	public EVRInputError GetSkeletalActionData(ulong action,ref InputSkeletalActionData_t pActionData,uint unActionDataSize)
@@ -3543,9 +3588,9 @@ public class CVRInput
 		EVRInputError result = FnTable.GetSkeletalBoneData(action,eTransformSpace,eMotionRange,pTransformArray,(uint) pTransformArray.Length);
 		return result;
 	}
-	public EVRInputError GetSkeletalSummaryData(ulong action,ref VRSkeletalSummaryData_t pSkeletalSummaryData)
+	public EVRInputError GetSkeletalSummaryData(ulong action,EVRSummaryType eSummaryType,ref VRSkeletalSummaryData_t pSkeletalSummaryData)
 	{
-		EVRInputError result = FnTable.GetSkeletalSummaryData(action,ref pSkeletalSummaryData);
+		EVRInputError result = FnTable.GetSkeletalSummaryData(action,eSummaryType,ref pSkeletalSummaryData);
 		return result;
 	}
 	public EVRInputError GetSkeletalBoneDataCompressed(ulong action,EVRSkeletalMotionRange eMotionRange,IntPtr pvCompressedData,uint unCompressedSize,ref uint punRequiredCompressedSize)
@@ -3587,6 +3632,11 @@ public class CVRInput
 	public EVRInputError ShowBindingsForActionSet(VRActiveActionSet_t [] pSets,uint unSizeOfVRSelectedActionSet_t,ulong originToHighlight)
 	{
 		EVRInputError result = FnTable.ShowBindingsForActionSet(pSets,unSizeOfVRSelectedActionSet_t,(uint) pSets.Length,originToHighlight);
+		return result;
+	}
+	public bool IsUsingLegacyInput()
+	{
+		bool result = FnTable.IsUsingLegacyInput();
 		return result;
 	}
 }
@@ -3740,7 +3790,7 @@ public enum ETrackedControllerRole
 	RightHand = 2,
 	OptOut = 3,
 	Treadmill = 4,
-	Max = 4,
+	Max = 5,
 }
 public enum ETrackingUniverseOrigin
 {
@@ -3877,6 +3927,9 @@ public enum ETrackedDeviceProperty
 	Prop_CameraDistortionFunction_Int32_Array = 2072,
 	Prop_CameraDistortionCoefficients_Float_Array = 2073,
 	Prop_ExpectedControllerType_String = 2074,
+	Prop_DisplayAvailableFrameRates_Float_Array = 2080,
+	Prop_DisplaySupportsMultipleFramerates_Bool = 2081,
+	Prop_DashboardLayoutPathName_String = 2090,
 	Prop_DriverRequestedMuraCorrectionMode_Int32 = 2200,
 	Prop_DriverRequestedMuraFeather_InnerLeft_Int32 = 2201,
 	Prop_DriverRequestedMuraFeather_InnerRight_Int32 = 2202,
@@ -3924,7 +3977,6 @@ public enum ETrackedDeviceProperty
 	Prop_HasVirtualDisplayComponent_Bool = 6006,
 	Prop_HasSpatialAnchorsSupport_Bool = 6007,
 	Prop_ControllerType_String = 7000,
-	Prop_LegacyInputProfile_String = 7001,
 	Prop_ControllerHandSelectionPriority_Int32 = 7002,
 	Prop_VendorSpecific_Reserved_Start = 10000,
 	Prop_VendorSpecific_Reserved_End = 10999,
@@ -4057,12 +4109,15 @@ public enum EVREventType
 	VREvent_QuitAborted_UserPrompt = 702,
 	VREvent_QuitAcknowledged = 703,
 	VREvent_DriverRequestedQuit = 704,
+	VREvent_RestartRequested = 705,
 	VREvent_ChaperoneDataHasChanged = 800,
 	VREvent_ChaperoneUniverseHasChanged = 801,
 	VREvent_ChaperoneTempDataHasChanged = 802,
 	VREvent_ChaperoneSettingsHaveChanged = 803,
 	VREvent_SeatedZeroPoseReset = 804,
 	VREvent_ChaperoneFlushCache = 805,
+	VREvent_ChaperoneRoomSetupStarting = 806,
+	VREvent_ChaperoneRoomSetupFinished = 807,
 	VREvent_AudioSettingsHaveChanged = 820,
 	VREvent_BackgroundSettingHasChanged = 850,
 	VREvent_CameraSettingsHaveChanged = 851,
@@ -4108,6 +4163,7 @@ public enum EVREventType
 	VREvent_Compositor_HDCPError = 1414,
 	VREvent_Compositor_ApplicationNotResponding = 1415,
 	VREvent_Compositor_ApplicationResumed = 1416,
+	VREvent_Compositor_OutOfVideoMemory = 1417,
 	VREvent_TrackedCamera_StartVideoStream = 1500,
 	VREvent_TrackedCamera_StopVideoStream = 1501,
 	VREvent_TrackedCamera_PauseVideoStream = 1502,
@@ -4161,9 +4217,9 @@ public enum EVRButtonId
 	k_EButton_SteamVR_Touchpad = 32,
 	k_EButton_SteamVR_Trigger = 33,
 	k_EButton_Dashboard_Back = 2,
-	k_EButton_Knuckles_A = 2,
-	k_EButton_Knuckles_B = 1,
-	k_EButton_Knuckles_JoyStick = 35,
+	k_EButton_IndexController_A = 2,
+	k_EButton_IndexController_B = 1,
+	k_EButton_IndexController_JoyStick = 35,
 	k_EButton_Max = 64,
 }
 public enum EVRMouseButton
@@ -4181,7 +4237,6 @@ public enum EShowUIType
 {
 	ShowUI_ControllerBinding = 0,
 	ShowUI_ManageTrackers = 1,
-	ShowUI_QuickStart = 2,
 	ShowUI_Pairing = 3,
 	ShowUI_Settings = 4,
 }
@@ -4373,6 +4428,8 @@ public enum EVRInitError
 	Init_USBServiceBusy = 140,
 	Init_VRWebHelperStartupFailed = 141,
 	Init_TrackerManagerInitFailed = 142,
+	Init_AlreadyRunning = 143,
+	Init_FailedForVrMonitor = 144,
 	Driver_Failed = 200,
 	Driver_Unknown = 201,
 	Driver_HmdUnknown = 202,
@@ -4385,6 +4442,7 @@ public enum EVRInitError
 	Driver_TrackedDeviceInterfaceUnknown = 209,
 	Driver_HmdDriverIdOutOfBounds = 211,
 	Driver_HmdDisplayMirrored = 212,
+	Driver_HmdDisplayNotFoundLaptop = 213,
 	IPC_ServerInitFailed = 300,
 	IPC_ConnectFailed = 301,
 	IPC_SharedStateInitFailed = 302,
@@ -4495,6 +4553,7 @@ public enum EVRInitError
 	VendorSpecific_HmdFound_UserDataError = 1112,
 	VendorSpecific_HmdFound_ConfigFailedSanityCheck = 1113,
 	Steam_SteamInstallationNotFound = 2000,
+	LastError = 2001,
 }
 public enum EVRScreenshotType
 {
@@ -4817,6 +4876,11 @@ public enum EVRFingerSplay
 	Middle_Ring = 2,
 	Ring_Pinky = 3,
 	Count = 4,
+}
+public enum EVRSummaryType
+{
+	FromAnimation = 0,
+	FromDevice = 1,
 }
 public enum EVRInputFilterCancelType
 {
@@ -5770,6 +5834,7 @@ public enum EIOBufferMode
 	public IntPtr m_pVRInput; // class vr::IVRInput *
 	public IntPtr m_pVRIOBuffer; // class vr::IVRIOBuffer *
 	public IntPtr m_pVRSpatialAnchors; // class vr::IVRSpatialAnchors *
+	public IntPtr m_pVRNotifications; // class vr::IVRNotifications *
 }
 
 public class OpenVR
@@ -5938,6 +6003,7 @@ public class OpenVR
 	public const string k_pch_SteamVR_ForceWindows32bitVRMonitor = "forceWindows32BitVRMonitor";
 	public const string k_pch_SteamVR_DebugInput = "debugInput";
 	public const string k_pch_SteamVR_DebugInputBinding = "debugInputBinding";
+	public const string k_pch_SteamVR_DoNotFadeToGrid = "doNotFadeToGrid";
 	public const string k_pch_SteamVR_InputBindingUIBlock = "inputBindingUI";
 	public const string k_pch_SteamVR_RenderCameraMode = "renderCameraMode";
 	public const string k_pch_SteamVR_EnableSharedResourceJournaling = "enableSharedResourceJournaling";
@@ -5960,7 +6026,9 @@ public class OpenVR
 	public const string k_pch_Lighthouse_EnableBluetooth_Bool = "enableBluetooth";
 	public const string k_pch_Lighthouse_PowerManagedBaseStations_String = "PowerManagedBaseStations";
 	public const string k_pch_Lighthouse_PowerManagedBaseStations2_String = "PowerManagedBaseStations2";
+	public const string k_pch_Lighthouse_InactivityTimeoutForBaseStations_Int32 = "InactivityTimeoutForBaseStations";
 	public const string k_pch_Lighthouse_EnableImuFallback_Bool = "enableImuFallback";
+	public const string k_pch_Lighthouse_NewPairing_Bool = "newPairing";
 	public const string k_pch_Null_Section = "driver_null";
 	public const string k_pch_Null_SerialNumber_String = "serialNumber";
 	public const string k_pch_Null_ModelNumber_String = "modelNumber";
@@ -5993,7 +6061,7 @@ public class OpenVR
 	public const string k_pch_Perf_AllowTimingStore_Bool = "allowTimingStore";
 	public const string k_pch_Perf_SaveTimingsOnExit_Bool = "saveTimingsOnExit";
 	public const string k_pch_Perf_TestData_Float = "perfTestData";
-	public const string k_pch_Perf_LinuxGPUProfiling_Bool = "linuxGPUProfiling";
+	public const string k_pch_Perf_GPUProfiling_Bool = "GPUProfiling";
 	public const string k_pch_CollisionBounds_Section = "collisionBounds";
 	public const string k_pch_CollisionBounds_Style_Int32 = "CollisionBoundsStyle";
 	public const string k_pch_CollisionBounds_GroundPerimeterOn_Bool = "CollisionBoundsGroundPerimeterOn";
@@ -6061,7 +6129,7 @@ public class OpenVR
 	public const uint k_unMaxActionSetNameLength = 64;
 	public const uint k_unMaxActionOriginCount = 16;
 	public const uint k_unMaxBoneNameLength = 32;
-	public const string IVRInput_Version = "IVRInput_005";
+	public const string IVRInput_Version = "IVRInput_006";
 	public const ulong k_ulInvalidIOBufferHandle = 0;
 	public const string IVRIOBuffer_Version = "IVRIOBuffer_002";
 	public const uint k_ulInvalidSpatialAnchorHandle = 0;
@@ -6089,7 +6157,9 @@ public class OpenVR
 			m_pVRScreenshots = null;
 			m_pVRTrackedCamera = null;
 			m_pVRInput = null;
+			m_pVRIOBuffer = null;
 			m_pVRSpatialAnchors = null;
+			m_pVRNotifications = null;
 		}
 
 		void CheckClear()
@@ -6257,6 +6327,19 @@ public class OpenVR
 			return m_pVRInput;
 		}
 
+		public CVRIOBuffer VRIOBuffer()
+		{
+			CheckClear();
+			if (m_pVRIOBuffer == null)
+			{
+				var eError = EVRInitError.None;
+				var pInterface = OpenVRInterop.GetGenericInterface(FnTable_Prefix + IVRIOBuffer_Version, ref eError);
+				if (pInterface != IntPtr.Zero && eError == EVRInitError.None)
+					m_pVRIOBuffer = new CVRIOBuffer(pInterface);
+			}
+			return m_pVRIOBuffer;
+		}
+
 		public CVRSpatialAnchors VRSpatialAnchors()
 		{
 			CheckClear();
@@ -6268,6 +6351,19 @@ public class OpenVR
 					m_pVRSpatialAnchors = new CVRSpatialAnchors(pInterface);
 			}
 			return m_pVRSpatialAnchors;
+		}
+
+		public CVRNotifications VRNotifications()
+		{
+			CheckClear();
+			if (m_pVRNotifications == null)
+			{
+				var eError = EVRInitError.None;
+				var pInterface = OpenVRInterop.GetGenericInterface(FnTable_Prefix + IVRNotifications_Version, ref eError);
+				if (pInterface != IntPtr.Zero && eError == EVRInitError.None)
+					m_pVRNotifications = new CVRNotifications(pInterface);
+			}
+			return m_pVRNotifications;
 		}
 
 		private CVRSystem m_pVRSystem;
@@ -6282,7 +6378,9 @@ public class OpenVR
 		private CVRScreenshots m_pVRScreenshots;
 		private CVRTrackedCamera m_pVRTrackedCamera;
 		private CVRInput m_pVRInput;
+		private CVRIOBuffer m_pVRIOBuffer;
 		private CVRSpatialAnchors m_pVRSpatialAnchors;
+		private CVRNotifications m_pVRNotifications;
 	};
 
 	private static COpenVRContext _OpenVRInternal_ModuleContext = null;
@@ -6308,7 +6406,9 @@ public class OpenVR
 	public static CVRScreenshots Screenshots { get { return OpenVRInternal_ModuleContext.VRScreenshots(); } }
 	public static CVRTrackedCamera TrackedCamera { get { return OpenVRInternal_ModuleContext.VRTrackedCamera(); } }
 	public static CVRInput Input { get { return OpenVRInternal_ModuleContext.VRInput(); } }
+	public static CVRIOBuffer IOBuffer { get { return OpenVRInternal_ModuleContext.VRIOBuffer(); } }
 	public static CVRSpatialAnchors SpatialAnchors { get { return OpenVRInternal_ModuleContext.VRSpatialAnchors(); } }
+	public static CVRNotifications Notifications { get { return OpenVRInternal_ModuleContext.VRNotifications(); } }
 
 	/** Finds the active installation of vrclient.dll and initializes it */
 	public static CVRSystem Init(ref EVRInitError peError, EVRApplicationType eApplicationType = EVRApplicationType.VRApplication_Scene, string pchStartupInfo= "")

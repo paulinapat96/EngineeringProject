@@ -23,7 +23,7 @@ namespace Valve.VR
         protected const string openVRString = "OpenVR";
         protected const string openVRPackageString = "com.unity.xr.openvr.standalone";
 
-#if UNITY_2018_1_OR_NEWER
+#if UNITY_2018_2_OR_NEWER
         private enum PackageStates
         {
             None,
@@ -53,7 +53,7 @@ namespace Valve.VR
                 {
                     UnityEditor.PlayerSettings.virtualRealitySupported = true;
                     enabledVR = true;
-                    Debug.Log("<b>[SteamVR Setup]</b> Enabled virtual reality support in Player Settings.");
+                    Debug.Log("<b>[SteamVR Setup]</b> Enabled virtual reality support in Player Settings. (you can disable this by unchecking Assets/SteamVR/SteamVR_Settings.autoEnableVR)");
                 }
 
                 UnityEditor.BuildTargetGroup currentTarget = UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup;
@@ -91,7 +91,7 @@ namespace Valve.VR
                     Debug.Log("<b>[SteamVR Setup]</b> Added OpenVR to supported VR SDKs list.");
                 }
 
-#if UNITY_2018_1_OR_NEWER
+#if UNITY_2018_2_OR_NEWER
                 //2018+ requires us to manually add the OpenVR package
 
                 switch (packageState)
