@@ -14,7 +14,7 @@ public class GameManager : MonoSingleton<GameManager>
     private Camera _playerCamera;
     [SerializeField] private float timer;
     [SerializeField] Image timerSlider;
-    private float gameTime = 30;
+    private float gameTime = 50;
 
     SeedManager _seedManager;
     ChickenManager _chickenManager;
@@ -66,7 +66,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         Debug.Log(SeedManager.currentSeed);
 
-        if (SeedManager.currentSeed == 3 || SeedManager.currentSeed == 9 || SeedManager.currentSeed == 15)
+        if (SeedManager.currentSeed == 3 || SeedManager.currentSeed == 6 || SeedManager.currentSeed == 12)
             _chickenManager.ActivateChicken();
 
     }

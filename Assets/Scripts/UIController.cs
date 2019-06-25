@@ -12,12 +12,14 @@ public class UIController : MonoBehaviour
     [SerializeField] private List<GameObject> tutorialPanels;
     [SerializeField] private GameObject endPanel;
 
+
     private int currentTutorialPanel;
 
     void Start()
     {
         currentTutorialPanel = tutorialPanels.Count-1;
         endPanel.SetActive(false);
+        
         ScrollTutorial();
 
     }

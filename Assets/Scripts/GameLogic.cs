@@ -6,12 +6,15 @@ using UnityEngine;
 public class GameLogic : MonoBehaviour
 {
     [SerializeField] Material barrierMaterial;
+    [SerializeField] GameObject animatedStartCamera, headCamera;
 
     void Start()
     {
         Time.timeScale = 1;
         if (SeedManager.currentSeed < 25) SeedManager.currentSeed = 25;
         Movement.OnWingForce += DoFly;
+        
+       // animatedStartCamera.GetComponent<Animation>().Play("cameraStartAnim");
     }
 
     private void DoFly(float arg1, bool arg2)

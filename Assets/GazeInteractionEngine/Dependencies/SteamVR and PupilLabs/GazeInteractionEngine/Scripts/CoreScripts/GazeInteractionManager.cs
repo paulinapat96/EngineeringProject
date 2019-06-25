@@ -55,7 +55,7 @@ namespace GazeInteractionEngine
             _sceneCamera = gameObject.GetComponent<Camera>();
             _calibrationDemo = gameObject.GetComponent<CalibrationDemo>();
             _heading = gameObject.GetComponent<LineRenderer>();
-            if(MainMenuLogic.wasCalibration == null || MainMenuLogic.wasCalibration == false) NoEmulate = true;
+            if (MainMenuLogic.wasCalibration == null || MainMenuLogic.wasCalibration == false) NoEmulate = true;
             else
             {
                 GazeEmulate = false;
@@ -93,17 +93,17 @@ namespace GazeInteractionEngine
                 if (GazeEmulate)
                 {
                     Vector3 tmpViewPort = Input.mousePosition;
-                    tmpViewPort = new Vector3(tmpViewPort.x / Screen.currentResolution.width, tmpViewPort.y / Screen.currentResolution.height, 10);                    
+                    tmpViewPort = new Vector3(tmpViewPort.x / Screen.currentResolution.width, tmpViewPort.y / Screen.currentResolution.height, 10);
                     _viewportPoint = Vector3.Lerp(_viewportPoint, tmpViewPort, 250.0f * Time.deltaTime);
 
-                }  
-                if(NoEmulate)
+                }
+                if (NoEmulate)
                 {
                     GazeEmulate = false;
                     _viewportPoint = _standardViewportPoint;
                 }
                 //else
-                    //_viewportPoint = Vector3.Lerp(_viewportPoint, _standardViewportPoint + gazeNoise, 25.0f * Time.deltaTime);
+                //_viewportPoint = Vector3.Lerp(_viewportPoint, _standardViewportPoint + gazeNoise, 25.0f * Time.deltaTime);
 
             }
 
@@ -136,7 +136,7 @@ namespace GazeInteractionEngine
                         }
                         catch { }
 
-                    _currentListener = listener;                   
+                    _currentListener = listener;
 
                 }
                 else
@@ -170,10 +170,10 @@ namespace GazeInteractionEngine
                     {
 
                     }
-                        _currentListener = null;
+                    _currentListener = null;
                 }
             }
-        }      
+        }
 
 
     }

@@ -200,6 +200,7 @@
     <Compile Include="Assets\GazeInteractionEngine\Dependencies\SteamVR and PupilLabs\GazeInteractionEngine\Scripts\CoreScripts\IGazeListener.cs" />
     <Compile Include="Assets\GazeInteractionEngine\Dependencies\SteamVR and PupilLabs\GazeInteractionEngine\Scripts\Debug\GazeInteractionEngineDebug.cs" />
     <Compile Include="Assets\GazeInteractionEngine\Dependencies\SteamVR and PupilLabs\GazeInteractionEngine\Scripts\Examples\KaiserRoll.cs" />
+    <Compile Include="Assets\Scripts\EndGame.cs" />
     <Compile Include="Assets\Scripts\GameLogic.cs" />
     <Compile Include="Assets\Scripts\GameManager\GameManager.cs" />
     <Compile Include="Assets\Scripts\KurzoCity\Chicken.cs" />
@@ -477,6 +478,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{CC2BFAAB-4BA4-0F87-F404-2A647CB39720}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="SteamVR_Input_Editor.csproj">
       <Project>{391BA7B2-A0A5-4E2B-81EF-AA70F0E2CE25}</Project>
       <Name>SteamVR_Input_Editor</Name>
